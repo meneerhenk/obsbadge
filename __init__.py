@@ -1,7 +1,7 @@
 # NEEDED: https://github.com/Palakis/obs-websocket on your OBS install.
 HOSTURL = "ws://192.168.1.66:4444"
 import display, keypad, wifi, json
-import uwebsockets.client
+from .client import connect
 studiomode = False
 transitions = []
 curtrans = ""
@@ -66,7 +66,7 @@ def paintbuttons():
 wifi.connect()
 while not wifi.status():
     pass
-wscl = uwebsockets.client.connect(HOSTURL)
+wscl = connect(HOSTURL)
 requestpayload = {'message-id':'1', 'request-type':'GetAuthRequired'}
 wscl.send(json.dumps(requestpayload))
 needauth = json.loads(wscl.recv())
